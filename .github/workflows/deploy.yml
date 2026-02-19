@@ -8,6 +8,8 @@ on:
 
 env:
   FLUTTER_VERSION: '3.41.1'
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
   build-and-deploy:
@@ -45,12 +47,7 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel
 
-      # 8. Pull Vercel project settings
-      - name: Pull Vercel Environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: build/web
-
-      # 9. Deploy to Vercel (Preview for PRs, Production for main)
+      # 8. Deploy to Vercel (Preview for PRs, Production for main)
       - name: Deploy to Vercel (Preview)
         if: github.event_name == 'pull_request'
         run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
