@@ -1,0 +1,35 @@
+name: portflo
+description: "Syed Uzaif — Flutter Developer Portfolio"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Typography
+  google_fonts: ^6.1.0
+
+  # Animations
+  visibility_detector: ^0.4.0+2
+  animated_text_kit: ^4.2.2
+
+  # Utilities
+  url_launcher: ^6.2.0
+  font_awesome_flutter: ^10.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/projects/
+    - assets/icons/
