@@ -17,6 +17,10 @@ class AppUrls {
       'https://github-readme-stats.vercel.app/api/top-langs/?username=syeduzaif'
       '&layout=compact&theme=tokyonight&hide_border=true&bg_color=0A0E17';
 
+  // ─── Resume ─────────────────────────────────────────────────
+  static const String resumeFileName = 'Syed_Uzaif_Resume.pdf';
+  static const String resumeAssetPath = 'assets/resume/$resumeFileName';
+
   // ─── Contact Form ──────────────────────────────────────────────
   static const String formspreeEndpoint = 'https://formspree.io/f/YOUR_FORM_ID';
 }

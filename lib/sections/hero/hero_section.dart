@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/utils/download_helper.dart';
+
 import '../../core/constants/app_strings.dart';
 import '../../core/constants/app_urls.dart';
 import '../../core/responsive/responsive.dart';
@@ -92,7 +94,9 @@ class _HeroSectionState extends State<HeroSection>
                     desktop: AppSpacing.sectionHorizontal,
                   ),
                 ),
-                child: context.isMobile ? _buildMobile(isDark) : _buildDesktop(isDark),
+                child: context.isMobile
+                    ? _buildMobile(isDark)
+                    : _buildDesktop(isDark),
               ),
             ),
           ),
@@ -107,8 +111,8 @@ class _HeroSectionState extends State<HeroSection>
         // Left: Text content
         Expanded(child: _buildTextContent(isDark)),
         const SizedBox(width: AppSpacing.huge),
-        // Right: Avatar placeholder
-        Expanded(child: _buildAvatar(isDark)),
+        // Right: Avatar
+        Expanded(child: Center(child: _buildAvatar(isDark))),
       ],
     );
   }
@@ -116,9 +120,7 @@ class _HeroSectionState extends State<HeroSection>
   Widget _buildMobile(bool isDark) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildTextContent(isDark),
-      ],
+      children: [_buildTextContent(isDark)],
     );
   }
 
@@ -128,82 +130,104 @@ class _HeroSectionState extends State<HeroSection>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Greeting
-        _animatedItem(0, Text(
-          AppStrings.heroGreeting,
-          style: AppFonts.bodyLarge.copyWith(
-            color: AppColors.secondary,
+        _animatedItem(
+          0,
+          Text(
+            AppStrings.heroGreeting,
+            style: AppFonts.bodyLarge.copyWith(color: AppColors.secondary),
           ),
-        )),
+        ),
         const SizedBox(height: AppSpacing.xs),
 
         // Name
-        _animatedItem(1, Text(
-          AppStrings.name,
-          style: (context.isMobile ? AppFonts.h1 : AppFonts.heroTitle).copyWith(
-            color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight,
+        _animatedItem(
+          1,
+          Text(
+            AppStrings.name,
+            style: (context.isMobile ? AppFonts.h1 : AppFonts.heroTitle)
+                .copyWith(
+                  color: isDark
+                      ? AppColors.textPrimaryDark
+                      : AppColors.textPrimaryLight,
+                ),
           ),
-        )),
+        ),
         const SizedBox(height: AppSpacing.m),
 
         // Typewriter subtitle
-        _animatedItem(2, SizedBox(
-          height: 40,
-          child: AnimatedTextKit(
-            repeatForever: true,
-            animatedTexts: AppStrings.heroTypewriterTexts.map((text) {
-              return TypewriterAnimatedText(
-                text,
-                textStyle: AppFonts.h4.copyWith(
-                  color: AppColors.primary,
-                ),
-                speed: const Duration(milliseconds: 80),
-              );
-            }).toList(),
+        _animatedItem(
+          2,
+          SizedBox(
+            height: 40,
+            child: AnimatedTextKit(
+              repeatForever: true,
+              animatedTexts: AppStrings.heroTypewriterTexts.map((text) {
+                return TypewriterAnimatedText(
+                  text,
+                  textStyle: AppFonts.h4.copyWith(color: AppColors.primary),
+                  speed: const Duration(milliseconds: 80),
+                );
+              }).toList(),
+            ),
           ),
-        )),
+        ),
         const SizedBox(height: AppSpacing.l),
 
         // Description
-        _animatedItem(3, Text(
-          AppStrings.heroDescription,
-          style: AppFonts.bodyLarge.copyWith(
-            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+        _animatedItem(
+          3,
+          Text(
+            AppStrings.heroDescription,
+            style: AppFonts.bodyLarge.copyWith(
+              color: isDark
+                  ? AppColors.textSecondaryDark
+                  : AppColors.textSecondaryLight,
+            ),
           ),
-        )),
+        ),
         const SizedBox(height: AppSpacing.xxl),
 
         // CTA Buttons
-        _animatedItem(4, Wrap(
-          spacing: AppSpacing.m,
-          runSpacing: AppSpacing.m,
-          children: [
-            PrimaryButton(
-              text: AppStrings.ctaViewWork,
-              icon: Icons.arrow_downward_rounded,
-              onPressed: widget.onViewWorkPressed,
-            ),
-            PrimaryButton(
-              text: AppStrings.ctaDownloadResume,
-              icon: Icons.download_rounded,
-              isOutlined: true,
-              onPressed: () {
-                // TODO: Link to actual resume
-              },
-            ),
-          ],
-        )),
+        _animatedItem(
+          4,
+          Wrap(
+            spacing: AppSpacing.m,
+            runSpacing: AppSpacing.m,
+            children: [
+              PrimaryButton(
+                text: AppStrings.ctaViewWork,
+                icon: Icons.arrow_downward_rounded,
+                onPressed: widget.onViewWorkPressed,
+              ),
+              PrimaryButton(
+                text: AppStrings.ctaDownloadResume,
+                icon: Icons.download_rounded,
+                isOutlined: true,
+                onPressed: () {
+                  downloadAsset(
+                    AppUrls.resumeAssetPath,
+                    AppUrls.resumeFileName,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: AppSpacing.xxl),
 
         // Social icons
-        _animatedItem(4, Row(
-          children: [
-            _socialIcon(FontAwesomeIcons.github, AppUrls.github),
-            const SizedBox(width: AppSpacing.m),
-            _socialIcon(FontAwesomeIcons.linkedin, AppUrls.linkedin),
-            const SizedBox(width: AppSpacing.m),
-            _socialIcon(Icons.email_outlined, AppUrls.email),
-          ],
-        )),
+        _animatedItem(
+          4,
+          Row(
+            children: [
+              _socialIcon(FontAwesomeIcons.github, AppUrls.github),
+              const SizedBox(width: AppSpacing.m),
+              _socialIcon(FontAwesomeIcons.linkedin, AppUrls.linkedin),
+              const SizedBox(width: AppSpacing.m),
+              _socialIcon(Icons.email_outlined, AppUrls.email),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -222,18 +246,27 @@ class _HeroSectionState extends State<HeroSection>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
-          width: 2,
-        ),
-      ),
-      child: Center(
-        child: Text(
-          'SU',
-          style: AppFonts.heroTitle.copyWith(
-            color: AppColors.primary,
-            fontSize: 80,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.2),
+            blurRadius: 40,
+            spreadRadius: 5,
           ),
+          BoxShadow(
+            color: AppColors.secondary.withValues(alpha: 0.1),
+            blurRadius: 60,
+            spreadRadius: 10,
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(4),
+      child: ClipOval(
+        child: Image.asset(
+          'assets/images/profile.png',
+          width: 342,
+          height: 342,
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter,
         ),
       ),
     );
@@ -245,10 +278,7 @@ class _HeroSectionState extends State<HeroSection>
       builder: (context, ch) {
         return Transform.translate(
           offset: _slideAnimations[index].value,
-          child: Opacity(
-            opacity: _fadeAnimations[index].value,
-            child: ch,
-          ),
+          child: Opacity(opacity: _fadeAnimations[index].value, child: ch),
         );
       },
       child: child,

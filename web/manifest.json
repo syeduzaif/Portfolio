@@ -1,11 +1,11 @@
 {
-    "name": "portflo",
-    "short_name": "portflo",
+    "name": "Syed Uzaif — Flutter Developer",
+    "short_name": "Syed Uzaif",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0A0E17",
+    "theme_color": "#0A0E17",
+    "description": "Syed Uzaif — Flutter Developer building production apps with 10,000+ active users.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
